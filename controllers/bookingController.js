@@ -44,7 +44,7 @@ const createBooking = async (req, res) => {
         await show.save({ session });
 
         await session.commitTransaction();
-        res.json({ success: true, message: "Booking Confirmed" });
+        res.json({ success: true, message: "Booking Confirmed", booking });
 
     } catch (error) {
         await session.abortTransaction();
