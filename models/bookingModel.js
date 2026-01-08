@@ -3,9 +3,9 @@ import mongoose from "mongoose";
 const bookingSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     show: { type: mongoose.Schema.Types.ObjectId, ref: 'show', required: true },
-    bookedSeats: { type: Object, required: true }, // Array of seat IDs or Map
+    bookedSeats: { type: Object, required: true }, 
     amount: { type: Number, required: true },
-    date: { type: Number, required: true }, // Timestamp
+    date: { type: Number, required: true }, 
     payment: { type: Boolean, default: false }
 })
 

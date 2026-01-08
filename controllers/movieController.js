@@ -1,6 +1,6 @@
 import Movie from "../models/movieModel.js";
 
-// Add Movie
+
 const addMovie = async (req, res) => {
   try {
     const {
@@ -40,7 +40,7 @@ const addMovie = async (req, res) => {
   }
 };
 
-// List Movies
+
 const listMovies = async (req, res) => {
   try {
     const movies = await Movie.find({});
@@ -51,7 +51,7 @@ const listMovies = async (req, res) => {
   }
 };
 
-// Remove Movie
+
 const removeMovie = async (req, res) => {
   try {
     await Movie.findByIdAndDelete(req.body.id);
@@ -63,10 +63,10 @@ const removeMovie = async (req, res) => {
 };
 
 
-// Single Movie Info
+
 const singleMovie = async (req, res) => {
   try {
-    // Changed from req.body to req.params
+    
     const { movieId } = req.params;
 
     const movie = await Movie.findById(movieId);
@@ -84,13 +84,13 @@ const singleMovie = async (req, res) => {
 
 
 
-// Update Movie Info
+
 const updateMovie = async (req, res) => {
   try {
-    // 1. Get the ID from the URL params
+   
     const { movieId } = req.params;
 
-    // 2. Get the updated data from the body
+   
     const {
       title,
       overview,
@@ -104,7 +104,7 @@ const updateMovie = async (req, res) => {
       vote_average,
     } = req.body;
 
-    // 3. Perform the update
+  
     const updatedMovie = await Movie.findByIdAndUpdate(
       movieId,
       {
@@ -119,7 +119,7 @@ const updateMovie = async (req, res) => {
         country,
         vote_average: Number(vote_average),
       },
-      { new: true } // This option returns the modified document rather than the original
+      { new: true } 
     );
 
     if (!updatedMovie) {

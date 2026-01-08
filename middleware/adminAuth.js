@@ -22,7 +22,7 @@ const adminAuth = async (req, res, next) => {
       return res.json({ success: false, message: "Admin access only" });
     }
 
-    req.user = user; // optional
+    req.user = user; 
     next();
   } catch (error) {
     console.log(error);

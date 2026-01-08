@@ -8,7 +8,7 @@ const createToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET)
 }
 
-// Route for user login
+
 const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -45,18 +45,18 @@ const loginUser = async (req, res) => {
     }
 }
 
-// Route for user register
+
 const registerUser = async (req, res) => {
     try {
         const { firstName, lastName, email, password } = req.body;
 
-        // Checking user already exists or not
+      
         const exists = await User.findOne({ email });
         if (exists) {
             return res.json({ success: false, message: "User already exists" })
         }
 
-        // Validating email format & strong password
+        
         if (!validator.isEmail(email)) {
             return res.json({ success: false, message: "Please enter a valid email" })
         }
@@ -64,7 +64,7 @@ const registerUser = async (req, res) => {
             return res.json({ success: false, message: "Please enter a strong password" })
         }
 
-        // Hashing user password
+       
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(password, salt)
 
@@ -97,16 +97,16 @@ const registerUser = async (req, res) => {
     }
 }
 
-// Route for admin login
+
 const adminLogin = async (req, res) => {
     try {
         const { email, password } = req.body;
-        // Basic hardcoded admin check for demo, ideally use DB role
+        
         if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
             const token = jwt.sign(email + password, process.env.JWT_SECRET);
             res.json({ success: true, token, user: { firstName: "Admin", lastName: "User", role: "admin" } })
         } else {
-            // Fallback to checking DB for role='admin'
+           
             const user = await User.findOne({ email });
             if (user && user.role === 'admin') {
                 const isMatch = await bcrypt.compare(password, user.password);
@@ -166,9 +166,9 @@ export async function googleLogin(req, res) {
         if (user == null) {
             const newUser = new User({
                 email: googleUser.email,
-                firstName: googleUser.given_name || "Firstname", // Fallback to prevent validation error
-                lastName: googleUser.family_name || "Lastname",   // Fallback to prevent validation error
-                password: "abc", // dummy password for OAuth users
+                firstName: googleUser.given_name || "Firstname", 
+                lastName: googleUser.family_name || "Lastname",   
+                password: "abc", 
                 isEmailVerified: googleUser.email_verified,
                 image: googleUser.picture
             })
@@ -194,21 +194,21 @@ export async function googleLogin(req, res) {
             return;
         } else {
 
-            // Migration logic: If existing user is missing names (from old schema), update them
+           
             if (!user.firstName || !user.lastName) {
                 user.firstName = googleUser.given_name || "Firstname";
                 user.lastName = googleUser.family_name || "Lastname";
                 await user.save();
             }
 
-            // Update image if it's missing or is a placeholder (like /user.png)
+            
             const isPlaceholderImage = !user.image || user.image.startsWith('/') || user.image === 'user.png';
             if (isPlaceholderImage && googleUser.picture) {
                 user.image = googleUser.picture;
                 await user.save();
             }
 
-            //login the user
+          
             const jwtToken = createToken(user._id);
 
             const responsePayload = {

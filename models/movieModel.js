@@ -5,8 +5,8 @@ const movieSchema = new mongoose.Schema({
     overview: { type: String, required: true },
     release_date: { type: Date, required: true },
     runtime: { type: Number, required: true },
-    poster_path: { type: String, required: true }, // URL
-    trailer_url: { type: String, required: true }, // URL
+    poster_path: { type: String, required: true }, 
+    trailer_url: { type: String, required: true }, 
     genres: { type: Array, required: true },
     languages: { type: Array, required: true },
     country: { type: String, required: true },
